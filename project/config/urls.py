@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from notes.views import IndexPage
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', IndexPage.as_view(), name='index_page')
 ]
