@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from notes.views import IndexPage
+from notes.views import IndexPage, DeleteNote
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexPage.as_view(), name='index_page')
+    path('', IndexPage.as_view(), name='index_page'),
+    path('delete/<pk>', DeleteNote.as_view(), name='delete')
 ]
