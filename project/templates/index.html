@@ -1,36 +1,36 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+
 {% block content %}
-{% crispy form %}
-<!-- <form action="post">
-    {% csrf_token %}
-    {{ form|crispy }}
+    {% crispy form %}
 
-</form> -->
-
-<div class="notes">
-   {% for note in notes %}
-    <div class="card text-center w-25">
-        <div class="card-header">
-            <h5>{{note.header}}</h5>
-        </div>
-        <div class="card-body">
-            <!-- <h5 class="card-title">Special title treatment</h5> -->
-            <p class="card-text">{{note.text}}</p>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-        </div>
-        <div class="card-footer">
-            <div class="status">
-                <h5>Статус:</h5>
-                {% if note.status %}
-                    <div class="badge bg-success">Сделано</div>
-                {% else %}
-                    <div class="badge bg-warning">Не сделано</div>
-                {% endif %}
+    <div class="notes">
+        {% for note in notes %}
+            <div class="card text-center w-50">
+                <div class="card-header">
+                    <h5>{{note.header}}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{note.text}}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-around">
+                    <div class="status d-flex align-items-start flex-column">
+                        <h6 class="my-0">Статус:</h6>
+                        {% if note.status == True %}
+                            <div class="badge bg-success">Сделано</div>
+                        {% else %}
+                            <div class="badge bg-warning text-dark">Не сделано</div>
+                        {% endif %}
+                    </div>
+                    {% if note.status == True %}
+                    <a href="change/{{note.pk}}"><button type="button" class="btn btn-danger">Не сделано</button></a>
+                    {% else %}
+                        <a href="delete/{{note.pk}}"><button type="button" class="btn btn-success">Сделано</button></a>
+                    {% endif %}
+                    <a href="edit/{{note.pk}}"><button type="button" class="btn btn-outline-info">Изменить</button></a>
+                    <a href="delete/{{note.pk}}"><button type="button" class="btn btn-outline-danger">X</button></a>
+                </div>
             </div>
-            <a href="delete/{{note.pk}}"><button type="button" class="btn btn-outline-danger"></button></a>
-        </div>
+    {% endfor %}
     </div>
-   {% endfor %}
-</div>
 {% endblock %}

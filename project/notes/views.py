@@ -4,16 +4,14 @@ from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 
 from .forms import CreateNoteForm
 from .models import Note
-# Create your views here.
 
 class IndexPage(ListView):
     template_name = 'index.html'
     paginate_by = 4
-    queryset = Note.objects.all()
-
+    
     def get(self, request, *args, **kwargs):
         form = CreateNoteForm()
-        return render(request, self.template_name, {'form': form, 'notes': self.queryset})
+        return render(request, self.template_name, {'form': form, 'notes': Note.objects.all()})
 
     def post(self, request, *args, **kwargs):
         form = CreateNoteForm(request.POST or None)
@@ -36,8 +34,6 @@ class DeleteNote(DeleteView):
     model = Note
     success_url = reverse_lazy('index_page')
     template_name = 'confirm_delete_note.html'
-
-    # Добавить шаблон подтверждения удаления
 
 # class UpdateNote(UpdateView):
 

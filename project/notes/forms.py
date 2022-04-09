@@ -7,7 +7,7 @@ from crispy_forms.layout import Submit, Layout, Button, ButtonHolder, Field
 class CreateNoteForm(forms.Form):
     header = forms.CharField(required=True, label='Заголовок')
     text = forms.CharField(required=True, widget=forms.Textarea(), label='Описание')
-    status = forms.BooleanField(label='Статус')
+    status = forms.BooleanField(required=False, label='Статус')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
