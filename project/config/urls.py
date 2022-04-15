@@ -16,10 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from notes.views import IndexPage, DeleteNote
+from notes.views import IndexPage, DeleteNote, change_status, UpdateNote
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexPage.as_view(), name='index_page'),
-    path('delete/<pk>', DeleteNote.as_view(), name='delete')
+    path('delete/<pk>', DeleteNote.as_view(), name='delete'),
+    path('change_status/<pk>', change_status, name='change_status'),
+    # path('delete_complited/', delete_complited, name='delete_complited'),
+    path('update/<pk>', UpdateNote.as_view(), name='update_note'),
 ]

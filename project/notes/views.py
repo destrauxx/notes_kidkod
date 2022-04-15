@@ -2,16 +2,25 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 
-from .forms import CreateNoteForm
+from .forms import CreateNoteForm, UpdateNoteForm
 from .models import Note
 
 class IndexPage(ListView):
     template_name = 'index.html'
     paginate_by = 4
+    model = Note
+    context_object_name = 'notes'
     
-    def get(self, request, *args, **kwargs):
-        form = CreateNoteForm()
-        return render(request, self.template_name, {'form': form, 'notes': Note.objects.all()})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CreateNoteForm
+        context['complited'] = Note.objects.filter(status=True)
+        print(context)
+        return context
+    # def get(self, request, *args, **kwargs):
+    #     form = CreateNoteForm()
+    #     complited = Note.objects.filter(status=True)
+    #     return render(request, self.template_name, {'form': form, 'notes': Note.objects.all(), 'complited': complited})
 
     def post(self, request, *args, **kwargs):
         form = CreateNoteForm(request.POST or None)
@@ -27,13 +36,24 @@ class IndexPage(ListView):
 class CreateNote(CreateView):
     model = Note
     form_class = CreateNoteForm
-    template_url = 'create_note_form.html'
     
-
 class DeleteNote(DeleteView):
     model = Note
     success_url = reverse_lazy('index_page')
     template_name = 'confirm_delete_note.html'
 
-# class UpdateNote(UpdateView):
+class UpdateNote(UpdateView):
+    model = Note
+    form_class = UpdateNoteForm
+    template_name = 'update_note.html'
+    success_url = reverse_lazy('index_page')
+
+def change_status(request, pk):
+    note = Note.objects.get(id=pk)
+    note.change_status()
+    note.save()
+    return redirect('/')
+
+# ПЕРЕПИСАТЬ НА КЛАСС
+
 
