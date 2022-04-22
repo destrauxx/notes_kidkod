@@ -57,3 +57,10 @@ class UpdateNoteForm(forms.ModelForm):
             Field('status'),
             ButtonHolder(Submit('изменить', 'Изменить', css_class='btn btn-warning'))
         )
+
+
+class SelectNotesToDeleteForm(forms.Form):
+    choices = forms.MultipleChoiceField(
+        choices = Note.objects.all(), # this is optional
+        widget  = forms.CheckboxSelectMultiple,
+    )
