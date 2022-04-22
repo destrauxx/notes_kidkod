@@ -7,47 +7,57 @@
         <a href="delete_complited/"><button type="button" class="btn btn-outline-danger mt-3">Удалить все завершенные?</button></a>
     {% endif %}
     {% if is_paginated %}
+    <div class="d-flex justify-content-center">
         <ul class="pagination">
             {% if page_obj.has_previous %}
                 <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
                 <li class="page-item"><a class='page-link' href="?page={{page_obj.previous_page_number}}">Предыдущая</a></li>
             {% endif %}
             {% for i in paginator.page_range %}
-                <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                {% if page_obj.number == i %}
+                    <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                {% endif %}
             {% endfor %}
             {% if page_obj.has_next %}
                 <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Следующая</a></li>
                 <li class="page-item"><a class="page-link" href="?page={{p.num_pages}}">Последняя</a></li>
             {% endif %}
         </ul>
+    </div>
     {% endif %}
-        <div class="notes container">
-        {% for note in notes %}
-            <div class="card text-center w-50">
-                <div class="card-header">
-                    <h5>{{note.header}}</h5>
-                </div>
-                <div class="card-body d-flex justify-content-start">
-                    <p class="card-text">{{note.text}}</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <div class="status d-flex align-items-start flex-column">
-                        <h6 class="my-0">Статус:</h6>
-                        {% if note.status == True %}
-                            <div class="badge bg-success">Сделано</div>
-                        {% else %}
-                            <div class="badge bg-warning text-dark">Не сделано</div>
-                        {% endif %}
+        <div class="notes container ">
+            <div class="row row-cols-2 justify-content-center">
+            {% for note in notes %}
+                <div class="col-5 m-3">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h5>{{note.header}}</h5>
+                        </div>
+                        <div class="card-body d-flex justify-content-start">
+                            <p class="card-text">{{note.text}}</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <div class="status d-flex align-items-start flex-column">
+                                <h6 class="my-0">Статус:</h6>
+                                {% if note.status == True %}
+                                    <div class="badge bg-success">Сделано</div>
+                                {% else %}
+                                    <div class="badge bg-warning text-dark">Не сделано</div>
+                                {% endif %}
+                            </div>
+                            {% if note.status == True %}
+                                <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-danger">Не сделано</button></a>
+                            {% else %}
+                                <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-success">Сделано</button></a>
+                            {% endif %}
+                            <a href="update/{{note.pk}}"><button type="button" class="btn btn-outline-info">Изменить</button></a>
+                            <a href="delete/{{note.pk}}"><button type="button" class="btn btn-outline-danger">X</button></a>
+                        </div>
                     </div>
-                    {% if note.status == True %}
-                        <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-danger">Не сделано</button></a>
-                    {% else %}
-                        <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-success">Сделано</button></a>
-                    {% endif %}
-                    <a href="update/{{note.pk}}"><button type="button" class="btn btn-outline-info">Изменить</button></a>
-                    <a href="delete/{{note.pk}}"><button type="button" class="btn btn-outline-danger">X</button></a>
                 </div>
-            </div>
-    {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

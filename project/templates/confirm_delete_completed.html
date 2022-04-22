@@ -2,9 +2,9 @@
 
 {% block content %}
     <h1>Удалить эти задачи?</h1>
-    {% for note in notes %}
-        <div class="d-flex flex-row">
-            <div class="card text-center w-25">
+    <div class="w-100 d-flex flex-row">
+        {% for note in notes %}
+            <div class="card text-center me-4">
                 <div class="card-header">
                     <h5>{{ note.header }}</h5>
                 </div>
@@ -12,8 +12,8 @@
                     <p class="card-text">{{ note.text }}</p>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
     <form class='mt-5' action="" method="post">
         {% csrf_token %}
         <a href="/"><button type='button' class="btn btn-success">Нет</button></a>

@@ -23,11 +23,6 @@ class IndexPage(ListView):
             form.save()
             return redirect('index_page')
 
-
-class CreateNote(CreateView):
-    model = Note
-    form_class = CreateNoteForm
-    
 class DeleteNote(DeleteView):
     model = Note
     success_url = reverse_lazy('index_page')
@@ -57,6 +52,4 @@ def change_status(request, pk):
     note.change_status()
     note.save()
     return redirect('/')
-
-
 
