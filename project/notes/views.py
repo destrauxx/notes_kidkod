@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 
-from .forms import CreateNoteForm, UpdateNoteForm
+from .forms import CreateNoteForm, SelectNotesToDeleteForm, UpdateNoteForm
 from .models import Note
 
 class IndexPage(ListView):
@@ -13,14 +13,21 @@ class IndexPage(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = CreateNoteForm
+        context['create_note_form'] = CreateNoteForm
+        context['select_notes_form'] = SelectNotesToDeleteForm
         context['complited'] = Note.objects.filter(status=True)
         return context
 
     def post(self, request, *args, **kwargs):
-        form = CreateNoteForm(request.POST or None)
-        if form.is_valid():
-            form.save()
+        create_note_form = CreateNoteForm(request.POST or None)
+        select_notes_form = SelectNotesToDeleteForm(request.POST or None)
+        if create_note_form.is_valid():
+            create_note_form.save()
+            return redirect('index_page')
+        if select_notes_form.is_valid():
+            print(select_notes_form.cleaned_data)
+            notes_to_delete = select_notes_form.cleaned_data.get('choices')
+            notes_to_delete.delete()
             return redirect('index_page')
 
 class DeleteNote(DeleteView):

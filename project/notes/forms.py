@@ -60,7 +60,7 @@ class UpdateNoteForm(forms.ModelForm):
 
 
 class SelectNotesToDeleteForm(forms.Form):
-    choices = forms.MultipleChoiceField(
-        choices = Note.objects.all(), # this is optional
+    choices = forms.ModelMultipleChoiceField(
+        queryset = Note.objects.all(), # this is optional
         widget  = forms.CheckboxSelectMultiple,
     )

@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    {% crispy form %}
+    {% crispy create_note_form %}
     {% if complited %}
         <a href="delete_complited/"><button type="button" class="btn btn-outline-danger mt-3">Удалить все завершенные?</button></a>
     {% endif %}
@@ -27,10 +27,11 @@
         </ul>
     </div>
     {% endif %}
-        <form action="">
+        <form action="" method="post">
             {% csrf_token %}
-
-            <div class="notes container">
+            {{ select_notes_form }}
+            <input type="submit">Send nudes</input>
+            <!-- <div class="notes container">
                 <div class="row row-cols-2 justify-content-center">
                 {% for note in notes %}
                     <div class="col-5 m-3">
@@ -62,7 +63,7 @@
                         </div>
                     </div>
                 {% endfor %}
-            </div>
+            </div> -->
         </form>
     </div>
 {% endblock %}
