@@ -64,3 +64,13 @@ class SelectNotesToDeleteForm(forms.Form):
         queryset = Note.objects.all(), # this is optional
         widget  = forms.CheckboxSelectMultiple,
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-inline'
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Field('choices', css_class='w-50'),
+            ButtonHolder(Submit('изменить', 'Изменить', css_class='btn btn-warning'))
+        )

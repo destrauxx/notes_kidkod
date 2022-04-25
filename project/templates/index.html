@@ -29,16 +29,16 @@
     {% endif %}
         <form action="" method="post">
             {% csrf_token %}
-            {{ select_notes_form }}
-            <input type="submit">Send nudes</input>
-            <!-- <div class="notes container">
+            <!-- {% crispy select_notes_form %} -->
+            <div class="notes container">
                 <div class="row row-cols-2 justify-content-center">
                 {% for note in notes %}
                     <div class="col-5 m-3">
                         <div class="card text-center">
                             <div class="card-header d-flex justify-content-between">
                                 <h5>{{note.header}}</h5>
-                                <input type="checkbox" value="{{note.id}}" name="choices">
+                                <!-- <input type="checkbox" value="{{note.id}}" name="choices"> -->
+                                {{ select_notes_form.choices|as_crispy_field }} 
                             </div>
                             <div class="card-body d-flex justify-content-start">
                                 <p class="card-text">{{note.text}}</p>
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 {% endfor %}
-            </div> -->
+            </div>
         </form>
     </div>
 {% endblock %}
