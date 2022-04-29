@@ -27,43 +27,45 @@
         </ul>
     </div>
     {% endif %}
-        <form action="" method="post">
-            {% csrf_token %}
-            <!-- {% crispy select_notes_form %} -->
-            <div class="notes container">
-                <div class="row row-cols-2 justify-content-center">
-                {% for note in notes %}
-                    <div class="col-5 m-3">
-                        <div class="card text-center">
-                            <div class="card-header d-flex justify-content-between">
-                                <h5>{{note.header}}</h5>
-                                <!-- <input type="checkbox" value="{{note.id}}" name="choices"> -->
-                                {{ select_notes_form.choices|as_crispy_field }} 
-                            </div>
-                            <div class="card-body d-flex justify-content-start">
-                                <p class="card-text">{{note.text}}</p>
-                            </div>
-                            <div class="card-footer d-flex justify-content-between">
-                                <div class="status d-flex align-items-start flex-column">
-                                    <h6 class="my-0">Статус:</h6>
-                                    {% if note.status == True %}
-                                        <div class="badge bg-success">Сделано</div>
-                                    {% else %}
-                                        <div class="badge bg-warning text-dark">Не сделано</div>
-                                    {% endif %}
-                                </div>
+        <div class="notes container">
+            <div class="row row-cols-2 justify-content-center">
+            {% for note in notes %}
+                <div class="col-5 m-3">
+                    <div class="card text-center">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5>{{note.header}}</h5>
+                            {% if note.delete_status %}
+                                <a href="change_delete_status/{{note.id}}"><input type="checkbox" value="{{note.id}}" name="choices" checked></a>
+                            {% else %}
+                                <a href="change_delete_status/{{note.id}}"><input type="checkbox" value="{{note.id}}" name="choices"></a>
+                            {% endif %}
+                        </div>
+                        <div class="card-body d-flex justify-content-start">
+                            <p class="card-text">{{note.text}}</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <div class="status d-flex align-items-start flex-column">
+                                <h6 class="my-0">Статус:</h6>
                                 {% if note.status == True %}
-                                    <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-danger">Не сделано</button></a>
+                                    <div class="badge bg-success">Сделано</div>
                                 {% else %}
-                                    <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-success">Сделано</button></a>
+                                    <div class="badge bg-warning text-dark">Не сделано</div>
                                 {% endif %}
-                                <a href="update/{{note.pk}}"><button type="button" class="btn btn-outline-info">Изменить</button></a>
-                                <a href="delete/{{note.pk}}"><button type="button" class="btn btn-outline-danger">X</button></a>
                             </div>
+                            {% if note.status == True %}
+                                <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-danger">Не сделано</button></a>
+                            {% else %}
+                                <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-success">Сделано</button></a>
+                            {% endif %}
+                            <a href="update/{{note.pk}}"><button type="button" class="btn btn-outline-info">Изменить</button></a>
+                            <a href="delete/{{note.pk}}"><button type="button" class="btn btn-outline-danger">X</button></a>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-        </form>
+                </div>
+            {% endfor %}
+        </div>
+        {% if selected %}
+            <a href="delete_selected/"><button type="submit" class="btn btn-danger">Удалить</button></a>
+        {% endif %}
     </div>
 {% endblock %}

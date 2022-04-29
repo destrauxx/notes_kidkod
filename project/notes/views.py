@@ -16,6 +16,7 @@ class IndexPage(ListView):
         context['create_note_form'] = CreateNoteForm
         context['select_notes_form'] = SelectNotesToDeleteForm
         context['complited'] = Note.objects.filter(status=True)
+        context['selected'] = Note.objects.filter(delete_status=True)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -60,3 +61,20 @@ def change_status(request, pk):
     note.save()
     return redirect('/')
 
+def change_delete_status(request, pk):
+    note = Note.objects.get(id=pk)
+    note.change_delete_status()
+    note.save()
+    return redirect('/')
+
+class DeleteSelected(ListView):
+    queryset = Note.objects.filter(delete_status = True)
+    template_name = 'confirm_delete_completed.html'
+    success_url = reverse_lazy('index_page')
+
+    def get(self, request, *args, **kwargs):
+        queryset = Note.objects.filter(delete_status=True)
+        return render(request, self.template_name, {'notes': queryset})
+    def post(self, request, *args, **kwargs):
+        queryset = Note.objects.filter(delete_status=True).delete()
+        return redirect(self.success_url)

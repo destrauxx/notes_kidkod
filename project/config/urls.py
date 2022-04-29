@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from notes.views import IndexPage, DeleteNote, change_status, UpdateNote, DeleteComplited
+from notes.views import IndexPage, DeleteNote, change_status, UpdateNote, DeleteComplited, change_delete_status, DeleteSelected
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +25,6 @@ urlpatterns = [
     path('change_status/<pk>', change_status, name='change_status'),
     path('delete_complited/', DeleteComplited.as_view(), name='delete_complited'),
     path('update/<pk>', UpdateNote.as_view(), name='update_note'),
+    path('change_delete_status/<pk>', change_delete_status),
+    path('delete_selected/', DeleteSelected.as_view())
 ]
