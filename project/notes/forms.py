@@ -4,6 +4,7 @@ from .models import Note
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Button, ButtonHolder, Field
 
+
 class CreateNoteForm(forms.ModelForm):
     class Meta:
         model = Note
@@ -31,6 +32,7 @@ class CreateNoteForm(forms.ModelForm):
             ButtonHolder(Submit('добавить', 'Добавить', css_class='btn btn-success'))
         )
 
+
 class UpdateNoteForm(forms.ModelForm):
     class Meta:
         model = Note
@@ -55,14 +57,16 @@ class UpdateNoteForm(forms.ModelForm):
             Field('header', css_class='w-50'),
             Field('text', css_class='w-50'),
             Field('status'),
-            ButtonHolder(Submit('изменить', 'Изменить', css_class='btn btn-warning'))
+            ButtonHolder(Submit('изменить', 'Изменить',
+                         css_class='btn btn-warning'))
         )
 
 
 class SelectNotesToDeleteForm(forms.Form):
     choices = forms.ModelMultipleChoiceField(
-        queryset = Note.objects.all(), # this is optional
-        widget  = forms.CheckboxSelectMultiple,
+        queryset = Note.objects.all(),  # this is optional
+        widget = forms.CheckboxSelectMultiple,
+        label = ''
     )
 
     def __init__(self, *args, **kwargs):
@@ -72,5 +76,6 @@ class SelectNotesToDeleteForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
             Field('choices', css_class='w-50'),
-            ButtonHolder(Submit('изменить', 'Изменить', css_class='btn btn-warning'))
+            ButtonHolder(Submit('изменить', 'Изменить',
+                         css_class='btn btn-warning'))
         )
