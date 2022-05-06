@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Удалить эту задачу?</h1>
+    <div class="card text-center w-25">
+        <div class="card-header">
+            <h5>{{ note.header }}</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ note.text }}</p>
+        </div>
+    </div>
+    <form class='mt-5' action="" method="post">
+        {% csrf_token %}
+        <a href="/"><button type='button' class="btn btn-success">Нет</button></a>
+        <button type="submit" class="btn btn-danger ms-4">Удалить</button>
+    </form>
+
+{% endblock %}

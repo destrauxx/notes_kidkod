@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% crispy create_note_form %}
+    {% if complited %}
+        <a href="delete_complited/"><button type="button" class="btn btn-outline-danger mt-3">Удалить все завершенные?</button></a>
+    {% endif %}
+    {% if is_paginated %}
+    <div class="d-flex justify-content-center">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+                <li class="page-item"><a class='page-link' href="?page={{page_obj.previous_page_number}}">Предыдущая</a></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Следующая</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{p.num_pages}}">Последняя</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+        <div class="notes container">
+            <div class="row row-cols-2 justify-content-center">
+            {% for note in notes %}
+                <div class="col-5 m-3">
+                    <div class="card text-center">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5>{{note.header}}</h5>
+                            {% if note.delete_status %}
+                                <input type="checkbox" value="{{note.id}}" name="choices" id="choices" checked onclick='window.location.href = "change_delete_status/{{note.pk}}"'>
+                            {% else %}
+                                <input type="checkbox" value="{{note.id}}" name="choices" id="choices" onclick='window.location.href = "change_delete_status/{{note.pk}}"'>
+                            {% endif %}
+                        </div>
+                        <div class="card-body d-flex justify-content-start">
+                            <p class="card-text">{{note.text}}</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <div class="status d-flex align-items-start flex-column">
+                                <h6 class="my-0">Статус:</h6>
+                                {% if note.status == True %}
+                                    <div class="badge bg-success">Сделано</div>
+                                {% else %}
+                                    <div class="badge bg-warning text-dark">Не сделано</div>
+                                {% endif %}
+                            </div>
+                            {% if note.status == True %}
+                                <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-danger">Не сделано</button></a>
+                            {% else %}
+                                <a href="change_status/{{note.pk}}"><button type="button" class="btn btn-success">Сделано</button></a>
+                            {% endif %}
+                            <a href="update/{{note.pk}}"><button type="button" class="btn btn-outline-info">Изменить</button></a>
+                            <a href="delete/{{note.pk}}"><button type="button" class="btn btn-outline-danger">X</button></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if selected %}
+            <a href="delete_selected/"><button type="submit" class="btn btn-danger">Удалить</button></a>
+        {% endif %}
+    </div>
+{% endblock %}
