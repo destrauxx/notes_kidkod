@@ -10,6 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+
+# https://damp-harbor-91894.herokuapp.com/ | https://git.heroku.com/damp-harbor-91894.git
+
+
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +30,7 @@ SECRET_KEY = 'django-insecure-ur5c7+*r_)!zfxsa&!1v=!bx!cigs%+yf5ts5_u4a97+)uyong
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['damp-harbor-91894.herokuapp.com']
 
 
 # Application definition
